@@ -9,7 +9,7 @@
     <div class="todo__list">
       <div
         class="todo__item"
-        v-for="(todo, index) in todos"
+        v-for="(todo, index) in todosFiltered"
         :key="index"
       >
         <div :class="['todo__item-main', { 'todo__item--completed' : todo.completed}]">
@@ -49,6 +49,37 @@
         </div>
       </div>
     </div>
+    <div class="todo__extra">
+      <div class="todo__extra-all">
+        <label for="checkAll">
+          <input
+            type="checkbox"
+            name="checkAll"
+            :checked="!anyRemaining"
+            @change="checkAllTodos"
+          >
+          Check All
+        </label>
+      </div>
+      <div class="todo__extra-text">
+        {{ remaining }} items left
+      </div>
+    </div>
+    <div class="todo__extra">
+      <div class="todo__extra-buttons">
+        <button :class="['todo__button', {'todo__button--active' : filter === 'all'}]" @click="filter = 'all'">All</button>
+        <button :class="['todo__button', {'todo__button--active' : filter === 'active'}]" @click="filter = 'active'">Active</button>
+        <button :class="['todo__button', {'todo__button--active' : filter === 'completed'}]" @click="filter = 'active'">Completed</button>
+      </div>
+      <div class="todo__extra-text">
+        <button
+          v-if="showClearCompletedButton"
+          @click="clearCompleted"
+        >
+          Clear Completed
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,6 +94,7 @@ export default {
       newTodo: '',
       idForTodo: 3,
       beforeEditCache: '',
+      filter: 'all',
       todos: [
         {
           id: 1,
@@ -83,6 +115,27 @@ export default {
           editing: false
         }
       ]
+    }
+  },
+  computed: {
+    remaining () {
+      return this.todos.filter(todo => !todo.completed).length
+    },
+    anyRemaining () {
+      return this.remaining !== 0
+    },
+    todosFiltered () {
+      if (this.filter === 'all') {
+        return this.todos
+      } else if (this.filter === 'active') {
+        return this.todos.filter(todo => !todo.completed)
+      } else if (this.filter === 'completed') {
+        return this.todos.filter(todo => todo.completed)
+      }
+      return this.todos
+    },
+    showClearCompletedButton () {
+      return this.todos.filter(todo => todo.completed).length > 0
     }
   },
   directives: {
@@ -124,6 +177,12 @@ export default {
     },
     removeTodo (id) {
       this.todos.splice(id, 1)
+    },
+    checkAllTodos () {
+      this.todos.forEach((todo) => { todo.completed = event.target.checked })
+    },
+    clearCompleted () {
+      this.todos = this.todos.filter(todo => !todo.completed)
     }
   }
 }
@@ -157,6 +216,17 @@ export default {
   .todo__item-text {
     text-decoration: line-through;
   }
+}
+
+.todo__extra {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #e5e5e5;
+  padding: 10px 0;
+}
+
+.todo__button {
+  margin-right: 10px;
 }
 
 </style>
