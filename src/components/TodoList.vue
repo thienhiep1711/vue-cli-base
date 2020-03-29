@@ -7,47 +7,18 @@
       @keyup.enter="addTodo"
     >
     <div class="todo__list">
-      <div
+      <todo-item
         class="todo__item"
         v-for="(todo, index) in todosFiltered"
-        :key="index"
+        :key="todo.id"
+        :todo="todo"
+        :index="index"
+        :checkAll="!anyRemaining"
+        @removedTodo="removeTodo"
+        @finishedUpdateTodo="finishedUpdate"
       >
-        <div :class="['todo__item-main', { 'todo__item--completed' : todo.completed}]">
-          <div class="todo__item-checkbox">
-            <input
-              type="checkbox"
-              :name="todo.id"
-              :id="todo.id"
-              v-model="todo.completed"
-            >
-          </div>
-          <div class="todo__item-content">
-            <div
-              v-if="!todo.editing"
-              class="todo__item-text"
-              @dblclick="editTodo(todo)"
-            >
-              {{ todo.title }}
-            </div>
-            <input
-              v-if="todo.editing"
-              type="text"
-              class="todo__item-input"
-              v-model="todo.title"
-              @blur="updateTodo(todo)"
-              @keyup.enter="updateTodo(todo)"
-              @keyup.esc="cancelEditTodo(todo)"
-              v-focus
-            >
-          </div>
-        </div>
-        <div
-          class="todo__item-close"
-          @click="removeTodo(todo.id)"
-        >
-          x
-        </div>
-      </div>
+
+      </todo-item>
     </div>
     <div class="todo__extra">
       <div class="todo__extra-all">
@@ -67,9 +38,24 @@
     </div>
     <div class="todo__extra">
       <div class="todo__extra-buttons">
-        <button :class="['todo__button', {'todo__button--active' : filter === 'all'}]" @click="filter = 'all'">All</button>
-        <button :class="['todo__button', {'todo__button--active' : filter === 'active'}]" @click="filter = 'active'">Active</button>
-        <button :class="['todo__button', {'todo__button--active' : filter === 'completed'}]" @click="filter = 'active'">Completed</button>
+        <button
+          :class="['todo__button', {'todo__button--active' : filter === 'all'}]"
+          @click="filter = 'all'"
+        >
+          All
+        </button>
+        <button
+          :class="['todo__button', {'todo__button--active' : filter === 'active'}]"
+          @click="filter = 'active'"
+        >
+          Active
+        </button>
+        <button
+          :class="['todo__button', {'todo__button--active' : filter === 'completed'}]"
+          @click="filter = 'completed'"
+        >
+          Completed
+        </button>
       </div>
       <div class="todo__extra-text">
         <button
@@ -84,8 +70,14 @@
 </template>
 
 <script>
+
+import TodoItem from './TodoItem'
+
 export default {
   name: 'todo-list',
+  components: {
+    TodoItem
+  },
   props: {
     msg: String
   },
@@ -130,19 +122,13 @@ export default {
       } else if (this.filter === 'active') {
         return this.todos.filter(todo => !todo.completed)
       } else if (this.filter === 'completed') {
+        console.log(this.todos.filter(todo => todo.completed))
         return this.todos.filter(todo => todo.completed)
       }
       return this.todos
     },
     showClearCompletedButton () {
       return this.todos.filter(todo => todo.completed).length > 0
-    }
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
     }
   },
   methods: {
@@ -161,19 +147,8 @@ export default {
       this.idForTodo++
       console.log('add todo')
     },
-    editTodo (todo) {
-      this.beforeEditCache = todo.title
-      todo.editing = true
-    },
-    updateTodo (todo) {
-      if (todo.title.trim() === '') {
-        todo.title = this.beforeEditCache
-      }
-      todo.editing = false
-    },
-    cancelEditTodo (todo) {
-      todo.title = this.beforeEditCache
-      todo.editing = false
+    finishedUpdate (data) {
+      this.todos.splice(data.index, 1, data.todo)
     },
     removeTodo (id) {
       this.todos.splice(id, 1)
@@ -189,33 +164,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 .todo__list {
   display: flex;
   flex-direction: column;
-}
-
-.todo__item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-
-.todo__item-main {
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: flex-start;
-}
-
-.todo__item-checkbox {
-  margin-right: 10px;
-}
-
-.todo__item--completed {
-  .todo__item-text {
-    text-decoration: line-through;
-  }
 }
 
 .todo__extra {
