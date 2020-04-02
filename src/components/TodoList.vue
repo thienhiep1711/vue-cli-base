@@ -14,57 +14,19 @@
         :todo="todo"
         :index="index"
         :checkAll="!anyRemaining"
-        @removedTodo="removeTodo"
         @finishedUpdateTodo="finishedUpdate"
       >
-
       </todo-item>
     </div>
+    <todo-check-all
+      :checkAllTodos="checkAllTodos"
+    ></todo-check-all>
     <div class="todo__extra">
-      <div class="todo__extra-all">
-        <label for="checkAll">
-          <input
-            type="checkbox"
-            name="checkAll"
-            :checked="!anyRemaining"
-            @change="checkAllTodos"
-          >
-          Check All
-        </label>
-      </div>
-      <div class="todo__extra-text">
-        {{ remaining }} items left
-      </div>
-    </div>
-    <div class="todo__extra">
-      <div class="todo__extra-buttons">
-        <button
-          :class="['todo__button', {'todo__button--active' : filter === 'all'}]"
-          @click="filter = 'all'"
-        >
-          All
-        </button>
-        <button
-          :class="['todo__button', {'todo__button--active' : filter === 'active'}]"
-          @click="filter = 'active'"
-        >
-          Active
-        </button>
-        <button
-          :class="['todo__button', {'todo__button--active' : filter === 'completed'}]"
-          @click="filter = 'completed'"
-        >
-          Completed
-        </button>
-      </div>
-      <div class="todo__extra-text">
-        <button
-          v-if="showClearCompletedButton"
-          @click="clearCompleted"
-        >
-          Clear Completed
-        </button>
-      </div>
+      <todo-filter></todo-filter>
+      <todo-clear-filter
+        :showClearCompletedButton="showClearCompletedButton"
+        :clearCompleted="clearCompleted"
+      ></todo-clear-filter>
     </div>
   </div>
 </template>
@@ -72,11 +34,17 @@
 <script>
 
 import TodoItem from './TodoItem'
+import TodoFilter from './TodoFilter'
+import TodoClearFilter from './TodoClearFilter'
+import TodoCheckAll from './TodoCheckAll'
 
 export default {
   name: 'todo-list',
   components: {
-    TodoItem
+    TodoItem,
+    TodoFilter,
+    TodoClearFilter,
+    TodoCheckAll
   },
   props: {
     msg: String
@@ -85,50 +53,21 @@ export default {
     return {
       newTodo: '',
       idForTodo: 3,
-      beforeEditCache: '',
-      filter: 'all',
-      todos: [
-        {
-          id: 1,
-          title: 'Finish Vue Screencast',
-          completed: false,
-          editing: false
-        },
-        {
-          id: 2,
-          title: 'Take over world',
-          completed: false,
-          editing: false
-        },
-        {
-          id: 3,
-          title: 'Style vue todo app',
-          completed: true,
-          editing: false
-        }
-      ]
+      beforeEditCache: ''
     }
   },
   computed: {
     remaining () {
-      return this.todos.filter(todo => !todo.completed).length
+      return this.$store.getters.remaining
     },
     anyRemaining () {
-      return this.remaining !== 0
+      return this.$store.getters.remaining !== 0
     },
     todosFiltered () {
-      if (this.filter === 'all') {
-        return this.todos
-      } else if (this.filter === 'active') {
-        return this.todos.filter(todo => !todo.completed)
-      } else if (this.filter === 'completed') {
-        console.log(this.todos.filter(todo => todo.completed))
-        return this.todos.filter(todo => todo.completed)
-      }
-      return this.todos
+      return this.$store.getters.todosFiltered
     },
     showClearCompletedButton () {
-      return this.todos.filter(todo => todo.completed).length > 0
+      return this.$store.getters.showClearCompletedButton
     }
   },
   methods: {
@@ -136,7 +75,7 @@ export default {
       if (this.newTodo.trim() === '') {
         return
       }
-      this.todos.push({
+      this.$store.state.todos.push({
         id: this.idForTodo,
         title: this.newTodo,
         completed: false,
@@ -148,16 +87,13 @@ export default {
       console.log('add todo')
     },
     finishedUpdate (data) {
-      this.todos.splice(data.index, 1, data.todo)
-    },
-    removeTodo (id) {
-      this.todos.splice(id, 1)
+      this.$store.state.todos.splice(data.index, 1, data.todo)
     },
     checkAllTodos () {
-      this.todos.forEach((todo) => { todo.completed = event.target.checked })
+      this.$store.state.todos.forEach((todo) => { todo.completed = event.target.checked })
     },
     clearCompleted () {
-      this.todos = this.todos.filter(todo => !todo.completed)
+      this.$store.state.todos = this.$store.state.todos.filter(todo => !todo.completed)
     }
   }
 }
