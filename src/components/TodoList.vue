@@ -23,10 +23,7 @@
     ></todo-check-all>
     <div class="todo__extra">
       <todo-filter></todo-filter>
-      <todo-clear-filter
-        :showClearCompletedButton="showClearCompletedButton"
-        :clearCompleted="clearCompleted"
-      ></todo-clear-filter>
+      <todo-clear-filter></todo-clear-filter>
     </div>
   </div>
 </template>
@@ -91,9 +88,6 @@ export default {
     },
     checkAllTodos () {
       this.$store.state.todos.forEach((todo) => { todo.completed = event.target.checked })
-    },
-    clearCompleted () {
-      this.$store.state.todos = this.$store.state.todos.filter(todo => !todo.completed)
     }
   }
 }
