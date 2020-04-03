@@ -20,15 +20,14 @@
 <script>
 export default {
   name: 'todo-check-all',
-  props: {
-    checkAllTodos: {
-      type: Function,
-      required: true
-    }
-  },
   computed: {
     remaining () {
       return this.$store.getters.remaining
+    }
+  },
+  methods: {
+    checkAllTodos () {
+      this.$store.commit('checkAll', event.target.checked)
     }
   }
 }

@@ -7,7 +7,7 @@
           :name="id"
           :id="id"
           v-model="completed"
-          @change="updateTodo"
+          @change="doneEdit"
         >
       </div>
       <div class="todo__item-content">
@@ -23,8 +23,8 @@
           type="text"
           class="todo__item-input"
           v-model="title"
-          @blur="updateTodo"
-          @keyup.enter="updateTodo"
+          @blur="doneEdit"
+          @keyup.enter="doneEdit"
           @keyup.esc="cancelEditTodo"
           v-focus
         >
@@ -79,21 +79,19 @@ export default {
   },
   methods: {
     removeTodo (id) {
-      const index = this.$store.state.todos.findIndex(item => item.id === id)
-      this.$store.state.todos.splice(index, 1)
+      this.$store.dispatch('deleteTodo', id)
     },
     editTodo () {
       console.log(1)
       this.beforeEditCache = this.title
       this.editing = true
     },
-    updateTodo () {
+    doneEdit () {
       if (this.title.trim() === '') {
         this.title = this.beforeEditCache
       }
       this.editing = false
-      const index = this.$store.state.todos.findIndex(item => item.id === this.id)
-      this.$store.state.todos.splice(index, 1, {
+      this.$store.dispatch('updateTodo', {
         id: this.id,
         title: this.title,
         completed: this.completed,

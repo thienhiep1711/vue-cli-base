@@ -18,9 +18,7 @@
       >
       </todo-item>
     </div>
-    <todo-check-all
-      :checkAllTodos="checkAllTodos"
-    ></todo-check-all>
+    <todo-check-all></todo-check-all>
     <div class="todo__extra">
       <todo-filter></todo-filter>
       <todo-clear-filter></todo-clear-filter>
@@ -49,7 +47,7 @@ export default {
   data () {
     return {
       newTodo: '',
-      idForTodo: 3,
+      idForTodo: 4,
       beforeEditCache: ''
     }
   },
@@ -72,22 +70,16 @@ export default {
       if (this.newTodo.trim() === '') {
         return
       }
-      this.$store.state.todos.push({
+      this.$store.dispatch('addTodo', {
         id: this.idForTodo,
-        title: this.newTodo,
-        completed: false,
-        editing: false
+        title: this.newTodo
       })
-
       this.newTodo = ''
       this.idForTodo++
       console.log('add todo')
     },
     finishedUpdate (data) {
       this.$store.state.todos.splice(data.index, 1, data.todo)
-    },
-    checkAllTodos () {
-      this.$store.state.todos.forEach((todo) => { todo.completed = event.target.checked })
     }
   }
 }
