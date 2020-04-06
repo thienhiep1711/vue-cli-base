@@ -132,16 +132,6 @@ export default {
   }
 }
 
-.todo__item-close {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-}
-
 .todo__item-input {
   padding: 3px 8px;
   font-size: 16px;
@@ -152,6 +142,28 @@ export default {
   &:focus {
     outline: none;
     border: 2px solid skyblue;
+  }
+}
+
+.todo__item-close {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+
+  &:hover {
+    cursor: pointer;
+
+    .todo__item-close-bar {
+
+      &::before,
+      &::after {
+        background-color: #666;
+      }
+    }
   }
 }
 
@@ -191,7 +203,7 @@ export default {
     height: 32px;
     position: relative;
     border-radius: 16px;
-    border: 2px solid #666;
+    border: 2px solid #999;
 
     &::before,
     &::after {
@@ -199,10 +211,10 @@ export default {
       position: absolute;
       height: 3px;
       width: 12px;
-      background-color: #666;
+      background-color: #999;
       bottom: 12px;
       left: 6px;
-      transition: background-color 0.3s;
+      transition: background-color 0.2s;
     }
 
     &::before {
@@ -216,6 +228,7 @@ export default {
       transform: rotate(125deg);
       width: 20px;
       transition-delay: 0.2s;
+      transition-duration: 0.4s;
     }
   }
 

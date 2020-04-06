@@ -47,6 +47,9 @@ export default new Vuex.Store({
     },
     showClearCompletedButton (state) {
       return state.todos.filter(todo => todo.completed).length > 0
+    },
+    allTodo (state) {
+      return state.todos.length
     }
   },
   mutations: {

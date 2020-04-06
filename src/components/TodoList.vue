@@ -17,6 +17,9 @@
         @finishedUpdateTodo="finishedUpdate"
       >
       </todo-item>
+      <todo-notice
+        :isActive="allTodo === 0 || remaining === 0"
+      ></todo-notice>
     </div>
     <todo-check-all></todo-check-all>
     <div class="todo__extra">
@@ -32,6 +35,7 @@ import TodoItem from './TodoItem'
 import TodoFilter from './TodoFilter'
 import TodoClearFilter from './TodoClearFilter'
 import TodoCheckAll from './TodoCheckAll'
+import TodoNotice from './TodoNotice'
 
 export default {
   name: 'todo-list',
@@ -39,7 +43,8 @@ export default {
     TodoItem,
     TodoFilter,
     TodoClearFilter,
-    TodoCheckAll
+    TodoCheckAll,
+    TodoNotice
   },
   props: {
     msg: String
@@ -63,6 +68,9 @@ export default {
     },
     showClearCompletedButton () {
       return this.$store.getters.showClearCompletedButton
+    },
+    allTodo () {
+      return this.$store.getters.allTodo
     }
   },
   methods: {
@@ -118,7 +126,7 @@ export default {
 
 .todo__input {
   height: 46px;
-  border: 2px solid #ccc;
+  border: 2px solid #e6e6e6;
   width: 100%;
   margin: 0;
   padding: 8px 10px;
