@@ -3,6 +3,7 @@
     <button
       v-if="showClearCompletedButton"
       @click="clearCompleted"
+      class="todo__button"
     >
       Clear Completed
     </button>

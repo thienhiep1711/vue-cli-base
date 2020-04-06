@@ -87,20 +87,53 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
 .todo__list {
   display: flex;
   flex-direction: column;
+  margin: 20px 0;
 }
 
 .todo__extra {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #e5e5e5;
-  padding: 10px 0;
+  padding: 15px 0;
+  align-items: center;
 }
 
 .todo__button {
   margin-right: 10px;
+  padding: 5px 10px;
+  border: 1px solid skyblue;
+  background-color: skyblue;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.todo__input {
+  height: 46px;
+  border: 2px solid #ccc;
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: skyblue;
+  }
+}
+
+.todo__extra-text {
+  font-weight: 500;
+  font-size: 13px;
 }
 
 </style>
