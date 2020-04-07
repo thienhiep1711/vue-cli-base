@@ -109,7 +109,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .todo__item {
+.todo__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -133,25 +133,25 @@ export default {
 }
 
 .todo__item-input {
+  width: 100%;
   padding: 3px 8px;
   font-size: 16px;
-  width: 100%;
   font-weight: 500;
   border-radius: 4px;
 
   &:focus {
     outline: none;
-    border: 2px solid skyblue;
+    border: 2px solid #41b882;
   }
 }
 
 .todo__item-close {
   position: relative;
-  width: 18px;
-  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 18px;
+  height: 18px;
   padding: 6px;
 
   &:hover {
@@ -209,11 +209,11 @@ export default {
     &::after {
       content: "";
       position: absolute;
+      bottom: 12px;
+      left: 6px;
       height: 3px;
       width: 12px;
       background-color: #999;
-      bottom: 12px;
-      left: 6px;
       transition: background-color 0.2s;
     }
 
@@ -225,10 +225,10 @@ export default {
     }
 
     &::after {
-      transform: rotate(125deg);
       width: 20px;
       transition-delay: 0.2s;
-      transition-duration: 0.4s;
+      transition-duration: 0.2s;
+      transform: rotate(125deg);
     }
   }
 
@@ -236,8 +236,8 @@ export default {
     display: none;
 
     &:checked + label {
-      border-color: skyblue;
-      background-color: skyblue;
+      border-color: #41b882;
+      background-color: #41b882;
 
       &::before,
       &::after {

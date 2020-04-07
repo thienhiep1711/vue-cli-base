@@ -1,6 +1,6 @@
 <template>
   <div class="todo-notice" v-if="isActive">
-    All Doneeeeee
+    <slot></slot>
   </div>
 </template>
 
@@ -15,3 +15,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .todo-notice {
+    margin: 30px 0;
+  }
+
+  .todo-notice__text {
+    font-weight: 500;
+    font-size: 20px;
+    color: #41b882;
+  }
+</style>

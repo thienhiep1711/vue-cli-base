@@ -10,11 +10,11 @@
           @change="checkAllTodos"
         >
         <label for="checkAll"></label>
-        <span class="todo__item-checkbox-text">Check All</span>
+        <span class="todo__item-checkbox-text">All</span>
       </label>
     </div>
     <div class="todo__extra-text">
-      {{ remaining }} items left
+      <span v-if="remaining">{{ remaining }} items left</span>
     </div>
   </div>
 </template>

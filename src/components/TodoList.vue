@@ -6,7 +6,7 @@
       v-model="newTodo"
       @keyup.enter="addTodo"
     >
-    <div class="todo__list">
+    <div class="todo__list" v-if="todosFiltered.length > 0">
       <todo-item
         class="todo__item"
         v-for="(todo, index) in todosFiltered"
@@ -17,12 +17,22 @@
         @finishedUpdateTodo="finishedUpdate"
       >
       </todo-item>
-      <todo-notice
-        :isActive="allTodo === 0 || remaining === 0"
-      ></todo-notice>
     </div>
-    <todo-check-all></todo-check-all>
-    <div class="todo__extra">
+    <todo-notice
+      :isActive="true"
+      v-else
+    >
+      <div class="todo-notice__text" v-if="currentFilter === 'active'">All Done!</div>
+      <div class="todo-notice__text" v-if="currentFilter === 'completed'">Give up!</div>
+      <div class="todo-notice__text" v-if="currentFilter === 'all'">Nothing todo...</div>
+    </todo-notice>
+    <todo-check-all
+      v-if="allTodo > 0"
+    ></todo-check-all>
+    <div
+      class="todo__extra"
+      v-if="allTodo > 0"
+    >
       <todo-filter></todo-filter>
       <todo-clear-filter></todo-clear-filter>
     </div>
@@ -71,6 +81,9 @@ export default {
     },
     allTodo () {
       return this.$store.getters.allTodo
+    },
+    currentFilter () {
+      return this.$store.getters.filter
     }
   },
   methods: {
@@ -84,7 +97,6 @@ export default {
       })
       this.newTodo = ''
       this.idForTodo++
-      console.log('add todo')
     },
     finishedUpdate (data) {
       this.$store.state.todos.splice(data.index, 1, data.todo)
@@ -93,7 +105,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 * {
   box-sizing: border-box;
@@ -108,34 +119,48 @@ export default {
 .todo__extra {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid #e5e5e5;
   padding: 15px 0;
   align-items: center;
+  border-top: 1px solid #e5e5e5;
 }
 
 .todo__button {
   margin-right: 10px;
   padding: 5px 10px;
-  border: 1px solid skyblue;
-  background-color: skyblue;
+  border: 1px solid #41b882;
+  background-color: #41b882;
   color: white;
   font-weight: bold;
   font-size: 13px;
   border-radius: 4px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.todo__button--active {
+  background-color: #35485d;
+  border-color: #35485d;
 }
 
 .todo__input {
-  height: 46px;
-  border: 2px solid #e6e6e6;
   width: 100%;
+  height: 46px;
   margin: 0;
   padding: 8px 10px;
+  border: 2px solid #e6e6e6;
   border-radius: 4px;
   font-size: 16px;
 
   &:focus {
     outline: none;
-    border-color: skyblue;
+    border-color: #41b882;
   }
 }
 

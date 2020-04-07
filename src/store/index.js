@@ -50,6 +50,9 @@ export default new Vuex.Store({
     },
     allTodo (state) {
       return state.todos.length
+    },
+    filter (state) {
+      return state.filter
     }
   },
   mutations: {
