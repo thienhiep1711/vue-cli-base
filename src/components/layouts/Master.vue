@@ -96,4 +96,46 @@ body {
   padding: 30px 0;
 }
 
+.account__title {
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.input {
+  height: 38px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #e7e7e7;
+  text-indent: 10px;
+  border: 2px solid transparent;
+  transition: 0.2s ease-in-out;
+  font-size: 15px;
+
+  &:focus {
+    outline: none;
+    border: 2px solid #2c3e50;
+    background-color: #f1f1f1;
+  }
+}
+
+.button {
+  height: 38px;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 0 14px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 </style>
