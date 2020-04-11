@@ -10,7 +10,7 @@
           name="username"
           id="username"
           required
-          v-model="username"
+          v-model="name"
         />
         <input
           type="text"
@@ -41,7 +41,7 @@ export default {
   name: 'register',
   data () {
     return {
-      username: '',
+      name: '',
       email: '',
       password: ''
     }
@@ -49,11 +49,11 @@ export default {
   methods: {
     handleRegister () {
       this.$store.dispatch('register', {
-        username: this.username,
+        name: this.name,
         email: this.email,
         password: this.password
       }).then(response => {
-        this.$router.push({ name: 'todo' })
+        this.$router.push({ name: 'login' })
       })
     }
   }

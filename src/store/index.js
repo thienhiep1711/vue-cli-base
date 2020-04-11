@@ -166,6 +166,22 @@ export default new Vuex.Store({
             })
         })
       }
+    },
+    register (context, data) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${apiURL}users`, {
+          config,
+          name: data.name,
+          email: data.email,
+          password: data.password
+        }).then(response => {
+          console.log(response)
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
     }
   },
   modules: {
