@@ -5,6 +5,7 @@ import About from '../components/pages/About.vue'
 import Todos from '../components/TodoList.vue'
 import Login from '../components/auth/Login.vue'
 import Register from '../components/auth/Register.vue'
+import Logout from '../components/auth/Logout.vue'
 
 Vue.use(VueRouter)
 
@@ -22,17 +23,31 @@ const routes = [
   {
     path: '/todos',
     name: 'todos',
-    component: Todos
+    component: Todos,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      requiresVisitor: true
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    meta: {
+      requiresVisitor: true
+    }
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: Logout
   }
 ]
 

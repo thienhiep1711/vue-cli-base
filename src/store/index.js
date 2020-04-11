@@ -66,6 +66,9 @@ export default new Vuex.Store({
     },
     loggedIn (state) {
       return state.token || null
+    },
+    getToken (state) {
+      return state.token
     }
   },
   mutations: {
@@ -101,6 +104,9 @@ export default new Vuex.Store({
     },
     retrieveToken (state, token) {
       state.token = token
+    },
+    destroyToken (state) {
+      state.token = null
     }
   },
   actions: {
@@ -138,6 +144,28 @@ export default new Vuex.Store({
           reject(error)
         })
       })
+    },
+    destroyToken (context, token) {
+      if (context.getters.loggedIn) {
+        return new Promise((resolve, reject) => {
+          axios.delete(`${apiURL}users/me/token`, {
+            headers: {
+              'x-auth': token
+            }
+          })
+            .then(response => {
+              localStorage.removeItem('access_token')
+              context.commit('destroyToken')
+              console.log(response)
+              resolve(response)
+            }).catch(error => {
+              localStorage.removeItem('access_token')
+              context.commit('destroyToken')
+              console.log(error)
+              reject(error)
+            })
+        })
+      }
     }
   },
   modules: {
