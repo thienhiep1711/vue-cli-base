@@ -4,9 +4,7 @@
       v-if="showClearCompletedButton"
       @click="clearCompleted"
       class="todo__button"
-    >
-      Clear Completed
-    </button>
+    >Clear Completed</button>
   </div>
 </template>
 

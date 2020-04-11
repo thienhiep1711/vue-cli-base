@@ -3,21 +3,15 @@
     <button
       :class="['todo__button', {'todo__button--active' : filter === 'all'}]"
       @click="changeFilter('all')"
-    >
-      All
-    </button>
+    >All</button>
     <button
       :class="['todo__button', {'todo__button--active' : filter === 'active'}]"
       @click="changeFilter('active')"
-    >
-      Active
-    </button>
+    >Active</button>
     <button
       :class="['todo__button', {'todo__button--active' : filter === 'completed'}]"
       @click="changeFilter('completed')"
-    >
-      Completed
-    </button>
+    >Completed</button>
   </div>
 </template>
 

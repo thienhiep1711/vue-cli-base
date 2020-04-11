@@ -17,13 +17,13 @@ export default {
 </script>
 
 <style lang="scss">
-  .todo-notice {
-    margin: 30px 0;
-  }
+.todo-notice {
+  margin: 30px 0;
+}
 
-  .todo-notice__text {
-    font-weight: 500;
-    font-size: 20px;
-    color: #41b882;
-  }
+.todo-notice__text {
+  font-weight: 500;
+  font-size: 20px;
+  color: #41b882;
+}
 </style>

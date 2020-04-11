@@ -8,7 +8,7 @@
           id="checkAll"
           :checked="remaining === 0"
           @change="checkAllTodos"
-        >
+        />
         <label for="checkAll"></label>
         <span class="todo__item-checkbox-text">All</span>
       </label>
@@ -36,19 +36,19 @@ export default {
 </script>
 
 <style lang="scss">
-  .todo__extra-all {
-    .todo__item-checkbox {
-      display: flex;
-      align-items: center;
-    }
-
-    span {
-      padding-left: 10px;
-    }
+.todo__extra-all {
+  .todo__item-checkbox {
+    display: flex;
+    align-items: center;
   }
 
-  .todo__item-checkbox-text {
-    font-weight: 500;
-    font-size: 13px;
+  span {
+    padding-left: 10px;
   }
+}
+
+.todo__item-checkbox-text {
+  font-weight: 500;
+  font-size: 13px;
+}
 </style>

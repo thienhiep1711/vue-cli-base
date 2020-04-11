@@ -2,23 +2,11 @@
   <div>
     <div :class="['todo__item-main', { 'todo__item--completed' : completed}]">
       <div class="todo__item-checkbox">
-        <input
-          type="checkbox"
-          :name="id"
-          :id="id"
-          v-model="completed"
-          @change="doneEdit"
-        >
+        <input type="checkbox" :name="id" :id="id" v-model="completed" @change="doneEdit" />
         <label :for="id"></label>
       </div>
       <div class="todo__item-content">
-        <div
-          v-if="!editing"
-          class="todo__item-text"
-          @dblclick="editTodo"
-        >
-          {{ title }}
-        </div>
+        <div v-if="!editing" class="todo__item-text" @dblclick="editTodo">{{ title }}</div>
         <input
           v-if="editing"
           type="text"
@@ -28,13 +16,10 @@
           @keyup.enter="doneEdit"
           @keyup.esc="cancelEditTodo"
           v-focus
-        >
+        />
       </div>
     </div>
-    <div
-      class="todo__item-close"
-      @click="removeTodo(id)"
-    >
+    <div class="todo__item-close" @click="removeTodo(id)">
       <span class="todo__item-close-bar"></span>
       <span class="todo__item-close-bar"></span>
     </div>
@@ -158,7 +143,6 @@ export default {
     cursor: pointer;
 
     .todo__item-close-bar {
-
       &::before,
       &::after {
         background-color: #666;
@@ -232,7 +216,7 @@ export default {
     }
   }
 
-  input[type=checkbox]{
+  input[type="checkbox"] {
     display: none;
 
     &:checked + label {
@@ -246,5 +230,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div class="todo">
-    <input type="text"
+    <input
+      type="text"
       class="todo__input"
       placeholder="What needs to be done"
       v-model="newTodo"
       @keyup.enter="addTodo"
-    >
+    />
     <div class="todo__list" v-if="todosFiltered.length > 0">
       <todo-item
         class="todo__item"
@@ -15,24 +16,15 @@
         :index="index"
         :checkAll="!anyRemaining"
         @finishedUpdateTodo="finishedUpdate"
-      >
-      </todo-item>
+      ></todo-item>
     </div>
-    <todo-notice
-      :isActive="true"
-      v-else
-    >
+    <todo-notice :isActive="true" v-else>
       <div class="todo-notice__text" v-if="currentFilter === 'active'">All Done!</div>
       <div class="todo-notice__text" v-if="currentFilter === 'completed'">Give up!</div>
       <div class="todo-notice__text" v-if="currentFilter === 'all'">Nothing todo...</div>
     </todo-notice>
-    <todo-check-all
-      v-if="allTodo > 0"
-    ></todo-check-all>
-    <div
-      class="todo__extra"
-      v-if="allTodo > 0"
-    >
+    <todo-check-all v-if="allTodo > 0"></todo-check-all>
+    <div class="todo__extra" v-if="allTodo > 0">
       <todo-filter></todo-filter>
       <todo-clear-filter></todo-clear-filter>
     </div>
@@ -168,5 +160,4 @@ export default {
   font-weight: 500;
   font-size: 13px;
 }
-
 </style>
