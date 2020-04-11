@@ -5,8 +5,8 @@
     </div>
     <div class="account__form">
       <form action="#" @submit.prevent="handleLogin">
-        <input type="text" class="input" placeholder="Username" name="username" id="username" required>
-        <input type="password" class="input" placeholder="Password" name="password" id="password" required>
+        <input type="text" class="input" placeholder="Username" name="username" id="username" required v-model="username">
+        <input type="password" class="input" placeholder="Password" name="password" id="password" required v-model="password">
         <button type="submit" class="button">Login</button>
       </form>
     </div>
@@ -24,7 +24,12 @@ export default {
   },
   methods: {
     handleLogin () {
-      console.log('Submit login')
+      this.$store.dispatch('retrieveToken', {
+        username: this.username,
+        password: this.password
+      }).then(response => {
+        this.$router.push({ name: 'todos' })
+      })
     }
   }
 }

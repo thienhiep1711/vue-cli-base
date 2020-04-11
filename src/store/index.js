@@ -1,10 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
+const apiURL = 'https://hiepnt-node-todo-api.herokuapp.com/'
 
 Vue.use(Vuex)
 
+const config = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
 export default new Vuex.Store({
   state: {
+    token: localStorage.getItem('access_token') || null,
     filter: 'all',
     todos: [
       {
@@ -53,6 +63,9 @@ export default new Vuex.Store({
     },
     filter (state) {
       return state.filter
+    },
+    loggedIn (state) {
+      return state.token || null
     }
   },
   mutations: {
@@ -85,6 +98,9 @@ export default new Vuex.Store({
     },
     checkAll (state, checked) {
       state.todos.forEach(todo => (todo.completed = checked))
+    },
+    retrieveToken (state, token) {
+      state.token = token
     }
   },
   actions: {
@@ -105,6 +121,23 @@ export default new Vuex.Store({
     },
     checkAll (context, checked) {
       context.commit('checkAll', checked)
+    },
+    retrieveToken (context, credentials) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${apiURL}users/login`, {
+          config,
+          email: credentials.username,
+          password: credentials.password
+        }).then(response => {
+          const token = response.data.auth
+          localStorage.setItem('access_token', token)
+          context.commit('retrieveToken', token)
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
     }
   },
   modules: {
