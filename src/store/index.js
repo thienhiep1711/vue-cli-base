@@ -32,7 +32,6 @@ export default new Vuex.Store({
       } else if (state.filter === 'active') {
         return state.todos.filter(todo => !todo.completed)
       } else if (state.filter === 'completed') {
-        console.log(state.todos.filter(todo => todo.completed))
         return state.todos.filter(todo => todo.completed)
       }
       return state.todos
@@ -138,6 +137,7 @@ export default new Vuex.Store({
       })
         .then(response => {
           console.log(response)
+          this.dispatch('getTodos')
         }).catch(error => {
           console.log(error)
         })
@@ -161,8 +161,33 @@ export default new Vuex.Store({
     updateFilter (context, filter) {
       context.commit('updateFilter', filter)
     },
-    checkAll (context, checked) {
+    async checkAll (context, checked) {
       context.commit('checkAll', checked)
+      const allTodos = context.state.todos
+      const checkedTodo = async () => {
+        const requests = allTodos.map((todo) => {
+          axios({
+            method: 'patch',
+            url: `${apiURL}todos/${todo._id}`,
+            data: {
+              completed: checked
+            },
+            headers: {
+              'Content-Type': 'application/json',
+              'x-auth': context.state.token
+            }
+          })
+            .then(response => {
+              console.log(response)
+            }).catch(error => {
+              console.log(error)
+            })
+        })
+        return Promise.all(requests).catch(error => {
+          console.log(error)
+        })
+      }
+      checkedTodo()
     },
     retrieveToken (context, credentials) {
       return new Promise((resolve, reject) => {

@@ -68,7 +68,7 @@ export default {
       return this.$store.getters.remaining !== 0
     },
     todosFiltered () {
-      return this.$store.getters.todosFiltered
+      return this.$store.getters.todosFiltered.slice().reverse()
     },
     showClearCompletedButton () {
       return this.$store.getters.showClearCompletedButton
