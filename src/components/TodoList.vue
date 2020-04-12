@@ -10,10 +10,10 @@
     <div class="todo__list" v-if="todosFiltered.length > 0">
       <todo-item
         class="todo__item"
-        v-for="(todo, index) in todosFiltered"
-        :key="todo.id"
+        v-for="(todo) in todosFiltered"
+        :key="todo._id"
         :todo="todo"
-        :index="index"
+        :index="todo._id"
         :checkAll="!anyRemaining"
         @finishedUpdateTodo="finishedUpdate"
       ></todo-item>
@@ -54,9 +54,11 @@ export default {
   data () {
     return {
       newTodo: '',
-      idForTodo: 4,
       beforeEditCache: ''
     }
+  },
+  created () {
+    this.$store.dispatch('getTodos')
   },
   computed: {
     remaining () {
@@ -80,15 +82,15 @@ export default {
   },
   methods: {
     addTodo () {
+      console.log(2)
       if (this.newTodo.trim() === '') {
         return
       }
       this.$store.dispatch('addTodo', {
-        id: this.idForTodo,
-        title: this.newTodo
+        title: this.newTodo,
+        note: 'Thienhiep'
       })
       this.newTodo = ''
-      this.idForTodo++
     },
     finishedUpdate (data) {
       this.$store.state.todos.splice(data.index, 1, data.todo)

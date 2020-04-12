@@ -14,28 +14,10 @@ const config = {
 
 export default new Vuex.Store({
   state: {
+    userId: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('access_token') || null,
     filter: 'all',
-    todos: [
-      {
-        id: 1,
-        title: 'Finish Vue Screencast',
-        completed: false,
-        editing: false
-      },
-      {
-        id: 2,
-        title: 'Take over world',
-        completed: false,
-        editing: false
-      },
-      {
-        id: 3,
-        title: 'Style vue todo app',
-        completed: true,
-        editing: false
-      }
-    ]
+    todos: []
   },
   getters: {
     remaining (state) {
@@ -66,6 +48,9 @@ export default new Vuex.Store({
     },
     loggedIn (state) {
       return state.token || null
+    },
+    userId (state) {
+      return state.userId
     },
     getToken (state) {
       return state.token
@@ -105,19 +90,70 @@ export default new Vuex.Store({
     retrieveToken (state, token) {
       state.token = token
     },
+    retrieveUserId (state, id) {
+      state.userId = id
+    },
     destroyToken (state) {
       state.token = null
+      state.userId = null
+    },
+    getTodos (state, todos) {
+      state.todos = todos
     }
   },
   actions: {
     addTodo (context, todo) {
-      context.commit('addTodo', todo)
+      axios({
+        method: 'post',
+        url: `${apiURL}todos`,
+        data: {
+          title: todo.title,
+          note: todo.note
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth': context.state.token
+        }
+      })
+        .then(response => {
+          console.log(response)
+          this.dispatch('getTodos')
+        }).catch(error => {
+          console.log(error)
+        })
     },
     updateTodo (context, todo) {
-      context.commit('updateTodo', todo)
+      axios({
+        method: 'patch',
+        url: `${apiURL}todos/${todo.id}`,
+        data: {
+          title: todo.title,
+          note: todo.note,
+          completed: todo.completed
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth': context.state.token
+        }
+      })
+        .then(response => {
+          console.log(response)
+        }).catch(error => {
+          console.log(error)
+        })
     },
     deleteTodo (context, id) {
       context.commit('deleteTodo', id)
+      axios.delete(`${apiURL}todos/${id}`, {
+        headers: {
+          'x-auth': context.state.token
+        }
+      })
+        .then(response => {
+          console.log(response)
+        }).catch(error => {
+          console.log(error)
+        })
     },
     clearCompleted (context) {
       context.commit('clearCompleted')
@@ -136,8 +172,11 @@ export default new Vuex.Store({
           password: credentials.password
         }).then(response => {
           const token = response.data.auth
+          const userId = response.data.user._id
           localStorage.setItem('access_token', token)
+          localStorage.setItem('user_id', userId)
           context.commit('retrieveToken', token)
+          context.commit('retrieveUserId', userId)
           resolve(response)
         }).catch(error => {
           console.log(error)
@@ -155,11 +194,13 @@ export default new Vuex.Store({
           })
             .then(response => {
               localStorage.removeItem('access_token')
+              localStorage.removeItem('user_id')
               context.commit('destroyToken')
               console.log(response)
               resolve(response)
             }).catch(error => {
               localStorage.removeItem('access_token')
+              localStorage.removeItem('user_id')
               context.commit('destroyToken')
               console.log(error)
               reject(error)
@@ -181,6 +222,18 @@ export default new Vuex.Store({
           console.log(error)
           reject(error)
         })
+      })
+    },
+    getTodos (context) {
+      axios.get(`${apiURL}todos`, {
+        config,
+        headers: {
+          'x-auth': context.state.token
+        }
+      }).then(response => {
+        context.commit('getTodos', response.data.todos)
+      }).catch(error => {
+        console.log(error)
       })
     }
   },

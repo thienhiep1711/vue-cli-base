@@ -35,7 +35,7 @@ export default {
       required: true
     },
     index: {
-      type: Number,
+      type: String,
       required: true
     },
     checkAll: {
@@ -45,10 +45,10 @@ export default {
   },
   data () {
     return {
-      id: this.todo.id,
+      id: this.todo._id,
       title: this.todo.title,
       completed: this.todo.completed,
-      editing: this.todo.editing,
+      editing: false,
       beforeEditCache: ''
     }
   },
@@ -69,21 +69,22 @@ export default {
       this.$store.dispatch('deleteTodo', id)
     },
     editTodo () {
-      console.log(1)
       this.beforeEditCache = this.title
       this.editing = true
     },
     doneEdit () {
       if (this.title.trim() === '') {
         this.title = this.beforeEditCache
+      } else if (this.title !== this.beforeEditCache) {
+        this.editing = false
+        this.$store.dispatch('updateTodo', {
+          id: this.id,
+          title: this.title,
+          completed: this.completed
+        })
+      } else {
+        this.editing = false
       }
-      this.editing = false
-      this.$store.dispatch('updateTodo', {
-        id: this.id,
-        title: this.title,
-        completed: this.completed,
-        editing: this.editing
-      })
     },
     cancelEditTodo () {
       this.title = this.beforeEditCache
