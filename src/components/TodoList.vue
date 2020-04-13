@@ -1,5 +1,11 @@
 <template>
   <div class="todo">
+    <div
+      class="todo__header"
+      v-if="users"
+    >
+      Welcome: <span>{{ users.email }}</span>
+    </div>
     <input
       type="text"
       class="todo__input"
@@ -33,6 +39,7 @@
 
 <script>
 
+import { mapState } from 'vuex'
 import TodoItem from './TodoItem'
 import TodoFilter from './TodoFilter'
 import TodoClearFilter from './TodoClearFilter'
@@ -61,6 +68,7 @@ export default {
     this.$store.dispatch('getTodos')
   },
   computed: {
+    ...mapState(['users']),
     remaining () {
       return this.$store.getters.remaining
     },
@@ -80,9 +88,11 @@ export default {
       return this.$store.getters.filter
     }
   },
+  mounted () {
+    this.$store.dispatch('getUser')
+  },
   methods: {
     addTodo () {
-      console.log(2)
       if (this.newTodo.trim() === '') {
         return
       }
@@ -108,6 +118,19 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 20px 0;
+}
+
+.todo__header {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #666;
+
+  span {
+    font-weight: 700;
+  }
 }
 
 .todo__extra {

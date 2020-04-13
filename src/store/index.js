@@ -14,10 +14,13 @@ const config = {
 
 export default new Vuex.Store({
   state: {
-    userId: localStorage.getItem('user_id') || null,
-    token: localStorage.getItem('access_token') || null,
     filter: 'all',
-    todos: []
+    todos: [],
+    users: {
+      id: localStorage.getItem('user_id') || null,
+      token: localStorage.getItem('access_token') || null,
+      email: null
+    }
   },
   getters: {
     remaining (state) {
@@ -46,13 +49,13 @@ export default new Vuex.Store({
       return state.filter
     },
     loggedIn (state) {
-      return state.token || null
+      return state.users.token || null
     },
     userId (state) {
-      return state.userId
+      return state.users.id
     },
     getToken (state) {
-      return state.token
+      return state.users.token
     }
   },
   mutations: {
@@ -87,17 +90,20 @@ export default new Vuex.Store({
       state.todos.forEach(todo => (todo.completed = checked))
     },
     retrieveToken (state, token) {
-      state.token = token
+      state.users.token = token
     },
     retrieveUserId (state, id) {
-      state.userId = id
+      state.users.id = id
     },
     destroyToken (state) {
-      state.token = null
-      state.userId = null
+      state.users.token = null
+      state.users.id = null
     },
     getTodos (state, todos) {
       state.todos = todos
+    },
+    getUser (state, user) {
+      state.users.email = user.email
     }
   },
   actions: {
@@ -111,7 +117,7 @@ export default new Vuex.Store({
         },
         headers: {
           'Content-Type': 'application/json',
-          'x-auth': context.state.token
+          'x-auth': context.state.users.token
         }
       })
         .then(response => {
@@ -132,7 +138,7 @@ export default new Vuex.Store({
         },
         headers: {
           'Content-Type': 'application/json',
-          'x-auth': context.state.token
+          'x-auth': context.state.users.token
         }
       })
         .then(response => {
@@ -146,7 +152,7 @@ export default new Vuex.Store({
       context.commit('deleteTodo', id)
       axios.delete(`${apiURL}todos/${id}`, {
         headers: {
-          'x-auth': context.state.token
+          'x-auth': context.state.users.token
         }
       })
         .then(response => {
@@ -174,7 +180,7 @@ export default new Vuex.Store({
             },
             headers: {
               'Content-Type': 'application/json',
-              'x-auth': context.state.token
+              'x-auth': context.state.users.token
             }
           })
             .then(response => {
@@ -204,7 +210,6 @@ export default new Vuex.Store({
           context.commit('retrieveUserId', userId)
           resolve(response)
         }).catch(error => {
-          console.log(error)
           reject(error)
         })
       })
@@ -249,11 +254,23 @@ export default new Vuex.Store({
         })
       })
     },
+    getUser (context) {
+      axios.get(`${apiURL}users/me`, {
+        config,
+        headers: {
+          'x-auth': context.state.users.token
+        }
+      }).then(response => {
+        this.commit('getUser', response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     getTodos (context) {
       axios.get(`${apiURL}todos`, {
         config,
         headers: {
-          'x-auth': context.state.token
+          'x-auth': context.state.users.token
         }
       }).then(response => {
         context.commit('getTodos', response.data.todos)

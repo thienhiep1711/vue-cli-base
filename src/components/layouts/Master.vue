@@ -121,7 +121,7 @@ body {
 }
 
 .input {
-  height: 38px;
+  height: 48px;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   width: 100%;
@@ -140,15 +140,17 @@ body {
 }
 
 .button {
-  height: 38px;
+  height: 42px;
   background-color: #2c3e50;
   color: white;
   font-weight: 500;
   font-size: 16px;
-  padding: 0 14px;
+  padding: 0 40px;
   border-radius: 4px;
   border: 0;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   &:focus {
     outline: none;

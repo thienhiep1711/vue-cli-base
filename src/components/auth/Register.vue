@@ -30,6 +30,12 @@
           required
           v-model="password"
         />
+        <notice
+          :isValue="errorMessage"
+          type="error"
+        >
+          {{errorMessage}}
+        </notice>
         <button type="submit" class="button">Submit</button>
       </form>
     </div>
@@ -37,13 +43,18 @@
 </template>
 
 <script>
+import Notice from '../Notice'
 export default {
   name: 'register',
+  components: {
+    Notice
+  },
   data () {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -54,6 +65,12 @@ export default {
         password: this.password
       }).then(response => {
         this.$router.push({ name: 'login' })
+      }).catch(error => {
+        const res = error.response
+        console.log(res)
+        if (res.status === 400) {
+          this.errorMessage = 'Something went wrong, a field not vaild'
+        }
       })
     }
   }

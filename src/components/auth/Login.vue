@@ -21,6 +21,12 @@
           required
           v-model="password"
         />
+        <notice
+          :isValue="errorMessage"
+          type="error"
+        >
+          {{errorMessage}}
+        </notice>
         <button type="submit" class="button">Login</button>
       </form>
     </div>
@@ -28,12 +34,18 @@
 </template>
 
 <script>
+import Notice from '../Notice'
+
 export default {
   name: 'login',
+  components: {
+    Notice
+  },
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -43,6 +55,11 @@ export default {
         password: this.password
       }).then(response => {
         this.$router.push({ name: 'todos' })
+      }).catch(error => {
+        const res = error.response
+        if (res.status === 400) {
+          this.errorMessage = 'Username or Password are incorrect. Please try again'
+        }
       })
     }
   }
