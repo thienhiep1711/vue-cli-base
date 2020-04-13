@@ -121,10 +121,9 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          console.log(response)
           this.dispatch('getTodos')
         }).catch(error => {
-          console.log(error)
+          throw error
         })
     },
     updateTodo (context, todo) {
@@ -142,10 +141,9 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          console.log(response)
           this.dispatch('getTodos')
         }).catch(error => {
-          console.log(error)
+          throw error
         })
     },
     deleteTodo (context, id) {
@@ -156,9 +154,8 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          console.log(response)
         }).catch(error => {
-          console.log(error)
+          throw error
         })
     },
     clearCompleted (context) {
@@ -184,13 +181,12 @@ export default new Vuex.Store({
             }
           })
             .then(response => {
-              console.log(response)
             }).catch(error => {
-              console.log(error)
+              throw error
             })
         })
         return Promise.all(requests).catch(error => {
-          console.log(error)
+          throw error
         })
       }
       checkedTodo()
@@ -226,13 +222,11 @@ export default new Vuex.Store({
               localStorage.removeItem('access_token')
               localStorage.removeItem('user_id')
               context.commit('destroyToken')
-              console.log(response)
               resolve(response)
             }).catch(error => {
               localStorage.removeItem('access_token')
               localStorage.removeItem('user_id')
               context.commit('destroyToken')
-              console.log(error)
               reject(error)
             })
         })
@@ -246,10 +240,8 @@ export default new Vuex.Store({
           email: data.email,
           password: data.password
         }).then(response => {
-          console.log(response)
           resolve(response)
         }).catch(error => {
-          console.log(error)
           reject(error)
         })
       })
@@ -263,7 +255,7 @@ export default new Vuex.Store({
       }).then(response => {
         this.commit('getUser', response.data)
       }).catch(error => {
-        console.log(error)
+        throw error
       })
     },
     getTodos (context) {
@@ -275,7 +267,7 @@ export default new Vuex.Store({
       }).then(response => {
         context.commit('getTodos', response.data.todos)
       }).catch(error => {
-        console.log(error)
+        throw error
       })
     }
   },

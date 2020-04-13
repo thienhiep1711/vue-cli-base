@@ -67,7 +67,6 @@ export default {
         this.$router.push({ name: 'login' })
       }).catch(error => {
         const res = error.response
-        console.log(res)
         if (res.status === 400) {
           this.errorMessage = 'Something went wrong, a field not vaild'
         }
