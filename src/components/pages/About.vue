@@ -1,5 +1,9 @@
 <template>
-  <div>
-    About page
+  <div class="main">
+    <div class="container">
+      <div>
+        About page
+      </div>
+    </div>
   </div>
 </template>

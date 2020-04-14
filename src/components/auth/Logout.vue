@@ -1,6 +1,10 @@
 <template>
-  <div>
-    Logout
+  <div class="main">
+    <div class="container">
+      <div>
+        Logout
+      </div>
+    </div>
   </div>
 </template>
 

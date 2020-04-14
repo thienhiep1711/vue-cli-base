@@ -1,34 +1,38 @@
 <template>
-  <div class="account">
-    <div class="account__title">Login</div>
-    <div class="account__form">
-      <form action="#" @submit.prevent="handleLogin">
-        <input
-          type="text"
-          class="input"
-          placeholder="Username"
-          name="username"
-          id="username"
-          required
-          v-model="username"
-        />
-        <input
-          type="password"
-          class="input"
-          placeholder="Password"
-          name="password"
-          id="password"
-          required
-          v-model="password"
-        />
-        <notice
-          :isValue="errorMessage"
-          type="error"
-        >
-          {{errorMessage}}
-        </notice>
-        <button type="submit" class="button">Login</button>
-      </form>
+  <div class="main">
+    <div class="container">
+      <div class="account">
+        <div class="account__title">Login</div>
+        <div class="account__form">
+          <form action="#" @submit.prevent="handleLogin">
+            <input
+              type="text"
+              class="input"
+              placeholder="Username"
+              name="username"
+              id="username"
+              required
+              v-model="username"
+            />
+            <input
+              type="password"
+              class="input"
+              placeholder="Password"
+              name="password"
+              id="password"
+              required
+              v-model="password"
+            />
+            <notice
+              :isValue="errorMessage"
+              type="error"
+            >
+              {{errorMessage}}
+            </notice>
+            <button type="submit" class="button">Login</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>

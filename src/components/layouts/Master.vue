@@ -22,11 +22,11 @@
         </li>
       </ul>
     </div>
-    <div class="main">
-      <div class="container">
+      <transition
+        name="slide-fade"
+      >
         <router-view></router-view>
-      </div>
-    </div>
+      </transition>
   </div>
 </template>
 
@@ -155,6 +155,28 @@ body {
   &:focus {
     outline: none;
   }
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease-in-out;
+}
+.slide-fade-leave-active {
+  transition: all 0s ease-in-out;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
+}
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 0.6s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 </style>
