@@ -2,43 +2,53 @@
   <div class="main">
     <div class="container">
       <div class="account">
-        <div class="account__title">Register</div>
+        <div class="account__title">
+          Register
+        </div>
         <div class="account__form">
-          <form action="#" @submit.prevent="handleRegister">
+          <form
+            action="#"
+            @submit.prevent="handleRegister"
+          >
             <input
-              type="text"
+              id="username"
+              v-model="name"
               class="input"
               placeholder="Username"
               name="username"
-              id="username"
+              type="text"
               required
-              v-model="name"
-            />
+            >
             <input
+              id="email"
+              v-model="email"
               type="text"
               class="input"
               placeholder="Email"
               name="email"
-              id="email"
               required
-              v-model="email"
-            />
+            >
             <input
+              id="password"
+              v-model="password"
               type="password"
               class="input"
               placeholder="Password"
               name="password"
-              id="password"
               required
-              v-model="password"
-            />
+            >
             <notice
-              :isValue="errorMessage"
+              :is-value="errorMessage"
               type="error"
             >
-              {{errorMessage}}
+              {{ errorMessage }}
             </notice>
-            <button type="submit" class="button">Submit</button>
+            <button
+              type="submit"
+              class="button"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
@@ -48,7 +58,6 @@
 
 <script>
 export default {
-  name: 'register',
   data () {
     return {
       name: '',

@@ -1,48 +1,72 @@
 <template>
-<div class="main">
-  <div class="container">
-    <div class="todo">
-      <transition name="fade">
-        <div
-        class="todo__header"
-        v-show="users.email"
+  <div class="main">
+    <div class="container">
+      <div class="todo">
+        <transition name="fade">
+          <div
+            v-show="users.email"
+            class="todo__header"
+          >
+            Welcome: <span>{{ users.email }}</span>
+          </div>
+        </transition>
+        <input
+          v-model="newTodo"
+          type="text"
+          class="todo__input"
+          placeholder="What needs to be done"
+          @keyup.enter="addTodo"
         >
-          Welcome: <span>{{ users.email }}</span>
+        <div
+          v-if="todosFiltered.length > 0"
+          class="todo__list"
+        >
+          <transition-group name="list-item">
+            <todo-item
+              v-for="(todo) in todosFiltered"
+              :key="todo._id"
+              class="todo__item"
+              :todo="todo"
+              :index="todo._id"
+              :check-all="!anyRemaining"
+              @finishedUpdateTodo="finishedUpdate"
+            />
+          </transition-group>
         </div>
-      </transition>
-      <input
-        type="text"
-        class="todo__input"
-        placeholder="What needs to be done"
-        v-model="newTodo"
-        @keyup.enter="addTodo"
-      />
-      <div class="todo__list" v-if="todosFiltered.length > 0">
-        <transition-group name="list-item">
-          <todo-item
-            class="todo__item"
-            v-for="(todo) in todosFiltered"
-            :key="todo._id"
-            :todo="todo"
-            :index="todo._id"
-            :checkAll="!anyRemaining"
-            @finishedUpdateTodo="finishedUpdate"
-          ></todo-item>
-        </transition-group>
-      </div>
-      <todo-notice :isActive="true" v-else>
-        <div class="todo-notice__text" v-if="currentFilter === 'active'">All Done!</div>
-        <div class="todo-notice__text" v-if="currentFilter === 'completed'">Give up!</div>
-        <div class="todo-notice__text" v-if="currentFilter === 'all'">Nothing todo...</div>
-      </todo-notice>
-      <todo-check-all v-if="allTodo > 0"></todo-check-all>
-      <div class="todo__extra" v-if="allTodo > 0">
-        <todo-filter></todo-filter>
-        <todo-clear-filter></todo-clear-filter>
+        <todo-notice
+          v-else
+          :is-active="true"
+        >
+          <div
+            v-if="currentFilter === 'active'"
+            class="todo-notice__text"
+          >
+            All Done!
+          </div>
+          <div
+            v-if="currentFilter === 'completed'"
+            class="todo-notice__text"
+          >
+            Give up!
+          </div>
+          <div
+            v-if="currentFilter === 'all'"
+            class="todo-notice__text"
+          >
+            Nothing todo...
+          </div>
+        </todo-notice>
+        <todo-check-all v-if="allTodo > 0" />
+        <div
+          v-if="allTodo > 0"
+          class="todo__extra"
+        >
+          <todo-filter />
+          <todo-clear-filter />
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -50,18 +74,11 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'todo-list',
-  props: {
-    msg: String
-  },
   data () {
     return {
       newTodo: '',
       beforeEditCache: ''
     }
-  },
-  created () {
-    this.$store.dispatch('getTodos')
   },
   computed: {
     ...mapState(['users']),
@@ -83,6 +100,9 @@ export default {
     currentFilter () {
       return this.$store.getters.filter
     }
+  },
+  created () {
+    this.$store.dispatch('getTodos')
   },
   mounted () {
     this.$store.dispatch('getUser')

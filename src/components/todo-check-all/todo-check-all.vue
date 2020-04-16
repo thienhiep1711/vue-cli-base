@@ -1,15 +1,18 @@
 <template>
   <div class="todo__extra">
     <div class="todo__extra-all">
-      <label for="checkAll" class="todo__item-checkbox">
+      <label
+        for="checkAll"
+        class="todo__item-checkbox"
+      >
         <input
+          id="checkAll"
           type="checkbox"
           name="checkAll"
-          id="checkAll"
           :checked="remaining === 0"
           @change="checkAllTodos"
-        />
-        <label for="checkAll"></label>
+        >
+        <label for="checkAll" />
         <span class="todo__item-checkbox-text">All</span>
       </label>
     </div>
@@ -21,7 +24,6 @@
 
 <script>
 export default {
-  name: 'todo-check-all',
   computed: {
     remaining () {
       return this.$store.getters.remaining
