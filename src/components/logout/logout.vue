@@ -10,7 +10,6 @@
 
 <script>
 export default {
-  name: 'logout',
   created () {
     if (this.$store.getters.getToken) {
       this.$store.dispatch('destroyToken', this.$store.getters.getToken)
