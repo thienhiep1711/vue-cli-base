@@ -1,0 +1,17 @@
+.notice {
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.notice--error {
+  background-color: lighten(red, 40%);
+  border: 1px solid lighten(red, 30%);
+}
+
+.notice--success {
+  background-color: lighten(green, 40%);
+  border: 1px solid lighten(green, 30%);
+}

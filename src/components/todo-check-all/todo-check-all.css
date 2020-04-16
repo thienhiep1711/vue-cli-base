@@ -1,0 +1,15 @@
+.todo__extra-all {
+  & .todo__item-checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  & span {
+    padding-left: 10px;
+  }
+}
+
+.todo__item-checkbox-text {
+  font-weight: 500;
+  font-size: 13px;
+}
