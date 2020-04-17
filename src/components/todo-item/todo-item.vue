@@ -2,33 +2,54 @@
   <div>
     <div :class="['todo__item-main', { 'todo__item--completed' : completed}]">
       <div class="todo__item-checkbox">
-        <input type="checkbox" :name="id" :id="id" v-model="completed" @change="doneEdit" />
-        <label :for="id"></label>
+        <input
+          :id="id"
+          v-model="completed"
+          type="checkbox"
+          :name="id"
+          @change="doneEdit"
+        >
+        <label :for="id" />
       </div>
       <div class="todo__item-content">
-        <div v-if="!editing" class="todo__item-text" @dblclick="editTodo">{{ title }}</div>
+        <div
+          v-if="!editing"
+          class="todo__item-text"
+          @dblclick="editTodo"
+        >
+          {{ title }}
+        </div>
         <input
           v-if="editing"
+          v-model="title"
+          v-focus
           type="text"
           class="todo__item-input"
-          v-model="title"
           @blur="doneEdit"
           @keyup.enter="doneEdit"
           @keyup.esc="cancelEditTodo"
-          v-focus
-        />
+        >
       </div>
     </div>
-    <div class="todo__item-close" @click="removeTodo(id)">
-      <span class="todo__item-close-bar"></span>
-      <span class="todo__item-close-bar"></span>
+    <div
+      class="todo__item-close"
+      @click="removeTodo(id)"
+    >
+      <span class="todo__item-close-bar" />
+      <span class="todo__item-close-bar" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'todo-item',
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
   props: {
     todo: {
       type: Object,
@@ -50,13 +71,6 @@ export default {
       completed: this.todo.completed,
       editing: false,
       beforeEditCache: ''
-    }
-  },
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
     }
   },
   watch: {

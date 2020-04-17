@@ -1,9 +1,8 @@
 /* global Node */
-
 import { removeAttribute, selectAll } from 'lib/dom'
 import { getProp, pipe, map, toPascalCase } from 'lib/utils'
-import store from 'lib/store'
-import router from '../../../modules/todo-app/todo-app.router'
+import store from 'app/store'
+import router from 'app/router'
 import Vue from 'vue'
 import { initializeModuleForEl } from 'lib/init-modules'
 

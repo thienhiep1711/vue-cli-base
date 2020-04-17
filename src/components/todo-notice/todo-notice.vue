@@ -1,12 +1,14 @@
 <template>
-  <div class="todo-notice" v-if="isActive">
-    <slot></slot>
+  <div
+    v-if="isActive"
+    class="todo-notice"
+  >
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'todo-notice',
   props: {
     isActive: {
       type: Boolean,

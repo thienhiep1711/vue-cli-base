@@ -1,15 +1,14 @@
 <template>
   <div
-    :class="['notice', `notice--${type}`, className]"
     v-if="isDisplay"
+    :class="['notice', `notice--${type}`, className]"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'notice',
   props: {
     className: {
       type: String,

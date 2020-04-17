@@ -1,5 +1,8 @@
-import store from 'lib/store'
+import Vuex from 'vuex'
+import Vue from 'vue'
 import axios from 'axios'
+
+Vue.use(Vuex)
 
 const apiURL = 'https://hiepnt-node-todo-api.herokuapp.com/'
 
@@ -9,9 +12,8 @@ const config = {
   }
 }
 
-export default () => {
-  store.registerModule('todoApp', {
-    namespaced: true,
+const store = new Vuex.Store(
+  {
     state: {
       filter: 'all',
       todos: [],
@@ -260,7 +262,7 @@ export default () => {
             'x-auth': context.state.users.token
           }
         }).then(response => {
-          this.commit('getUser', response.data)
+          context.commit('getUser', response.data)
         }).catch(error => {
           console.log(error)
         })
@@ -278,5 +280,7 @@ export default () => {
         })
       }
     }
-  })
-}
+  }
+)
+
+export default store

@@ -1,10 +1,11 @@
 import Vue from 'vue'
-import store from '../../assets/js/lib/store'
-import router from './todo-app.router'
+import store from 'app/store'
+import router from 'app/router'
 
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  console.log(to)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
