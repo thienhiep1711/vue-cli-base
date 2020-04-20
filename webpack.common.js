@@ -55,13 +55,15 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif|ico)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'assets/images'
+              publicPath: function (url) {
+                return url.replace(/assets/, '..')
+              }
             }
           }
         ]
@@ -89,6 +91,7 @@ module.exports = {
       modules: path.resolve(__dirname, 'src/modules'),
       components: path.resolve(__dirname, 'src/components'),
       fonts: path.join(__dirname, 'src/assets/fonts'),
+      images: path.join(__dirname, 'src/assets/images'),
       vue$: 'vue/dist/vue.esm.js'
     }
   },
