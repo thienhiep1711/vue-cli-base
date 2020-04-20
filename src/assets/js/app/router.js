@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Todos from 'components/todo-list/todo-list.vue'
-import Login from 'components/login/login.vue'
-import Register from 'components/register/register.vue'
-import Logout from 'components/logout/logout.vue'
+import Todos from '../../../modules/todo-list/todo-list.vue'
+import Login from '../../../modules/login/login.vue'
+import Register from '../../../modules/register/register.vue'
+import Logout from '../../../modules/logout/logout.vue'
 
 Vue.use(VueRouter)
 
