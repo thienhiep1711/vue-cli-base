@@ -71,21 +71,3 @@
     }
   }
 }
-
-.grid--products {
-  padding-top: 30px;
-  padding-bottom: 60px;
-}
-
-.grid--home-list-collections {
-  @mixin flex-horizontal center, flex-start, nowrap;
-  margin: 0;
-}
-
-.grid--article {
-  @media (--ml) {
-    & .grid__item {
-      @mixin cell 33px;
-    }
-  }
-}
